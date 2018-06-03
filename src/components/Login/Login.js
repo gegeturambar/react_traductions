@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-dom';
 import Api from '../../services/Api';
 import './Login.css';
 
@@ -9,8 +10,10 @@ class Login extends Component {
 
   constructor(){
     super();
+    this.myApi = new Api();
+
     this.state={
-      username: '',
+      email: '',
       password: '',
       redirectToRefferer: false
     };
@@ -19,11 +22,13 @@ class Login extends Component {
   }
 
   login(){
-    if(this.state.username && this.state.password){
-      Api.postData('login', this.state).then( (result) => {
+    if(this.state.email && this.state.password){
+      this.myApi.postData('login', this.state).then( (result) => {
         let responseJson = result;
-        if(responseJson.userData){
-          sessionStorage.setItem('userData', JSON.stringify(responseJson));
+        console.log(responseJson);
+        if(responseJson['data']['X-AUTH-TOKEN']){
+          //sessionStorage.setItem('X-AUTH-TOKEN', JSON.stringify(responseJson));
+          sessionStorage.setItem('X-AUTH-TOKEN', responseJson['data']['X-AUTH-TOKEN'] );          
           this.setState({redirectToRefferer: true});
         }
       });
@@ -36,7 +41,7 @@ class Login extends Component {
 
    render() {
 
-    if(this.state.redirectToRefferer || sessionStorage.getItem('userData')){
+    if(this.state.redirectToRefferer || sessionStorage.getItem('X-AUTH-TOKEN')){
       return (<Redirect to={'/home'}/>)
     }
     
@@ -45,8 +50,8 @@ class Login extends Component {
  <div className="row" id="Body">
  <div className="medium-5 columns left">
  <h4>Login</h4>
- <label>Username</label>
- <input type="text" name="username" placeholder="Username" onChange={this.onChange} />
+ <label>Email</label>
+ <input type="text" name="email" placeholder="Email" onChange={this.onChange} />
  <label>Password</label>
  <input type="password" name="password" placeholder="Password" onChange={this.onChange} />
  <input type="submit" className="button success" value="Login" onClick={this.login} />

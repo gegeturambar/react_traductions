@@ -1,5 +1,3 @@
-import Axios from "axios";
-
  
  
  class Api{
@@ -13,35 +11,11 @@ import Axios from "axios";
         let id = userData.id;
         delete userData.id;
         let url = this.baseUrl+type+'/update/'+id;
-
-        let headers = {};
-        if(sessionStorage.getItem('X-AUTH-TOKEN')){
-            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
-        }
-
-        var config = {
-            headers: headers
-          };
-        return Axios.put(url,userData,config);
-
-
         return this.apiCall(url,'POST',JSON.stringify(userData));
     }
 
     postData (type, userData) {
         let url = this.baseUrl+type;
-        
-        let headers = {};
-        if(sessionStorage.getItem('X-AUTH-TOKEN')){
-            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
-        }
-
-        var config = {
-            headers: headers
-          };
-        return Axios.post(url,userData,config);
-
-
         return this.apiCall(url,'POST',JSON.stringify(userData));
     }
 
@@ -53,42 +27,18 @@ import Axios from "axios";
             url += "/"+limit;
             url += offset ? "/"+offset : "";
         }
-        let headers = {};
-        if(sessionStorage.getItem('X-AUTH-TOKEN')){
-            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
-        }
-        var config = {
-            headers: headers
-          };
-        return Axios.get(url,config);
-
         return this.apiCall(url,'GET');
     }
 
     apiCall(url,method, body = null){
-
-        let headers = {};
-        if(sessionStorage.getItem('X-AUTH-TOKEN')){
-            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
-        }
-        var config = {
-            headers: headers
-          };
-          
-        return Axios[method](url,body,config);
+        let headers = { };
         /*
-        .then(function(response){
-            console.log(response)
-        });
-*/
-
-
-/*
-        let headers = {
             'content-type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         };*/
-        
+        if(sessionStorage.getItem('X-AUTH-TOKEN')){
+            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
+        }
         
         return new Promise( (resolve, reject ) => {
             fetch(url, {

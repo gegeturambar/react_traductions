@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './styles/foundation.min.css';
+import './styles/bootstrap.min.css';
+import './styles/dashboard.css';
 import './styles/custom.css';
 
 import Routes from './routes';
@@ -7,6 +8,7 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import MobileHeader from './components/MobileHeader/MobileHeader';
 
+import Navigator from './components/Navigator/Navigator';
 import Traductions from './components/Traductions/Traductions';
 
 
@@ -15,25 +17,28 @@ class App extends Component {
      constructor(props){
         super(props);
         this.state={
-        appName: "Banana Project",
-        home: false
+          isAuthenticated: false,
+          appName: "Banana Project",
+          home: false
        }
       }
 
      render() {
      return (
-       <div className="off-canvas-wrapper">
-        <div className="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-          <div className="off-canvas-content" data-off-canvas-content>
-          <MobileHeader name={this.state.appName} />
+       <body>
           <Header name={this.state.appName} />
-          <Routes name={this.state.appName}/>
-          <Traductions/>
-          <hr/>
-          <Footer/>
+          <div class="container-fluid">
+            <div class="row">
+            <Navigator/>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+              <Routes name={this.state.appName}/>
+            </main>
+              
+              
+         
+            </div>
           </div>
-        </div>
-       </div>
+       </body>
     );
   }
 }
