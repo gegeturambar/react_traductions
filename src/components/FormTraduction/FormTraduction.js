@@ -18,36 +18,37 @@ class FormTraduction extends Component {
     this.myApi = new Api();
     
     this.state={
-        locales: [],
+        langues: [],
         redirectToRefferer: !(Boolean)(sessionStorage.getItem('X-AUTH-TOKEN')),
         tag: '',
         value: '',
-        localeId: ''
+        langueId: ''
     };
 
-    if(sessionStorage.getItem('locales')){
-      this.setState({locales: sessionStorage.getItem('locales')});
+    if(sessionStorage.getItem('langues')){
+      this.setState({langues: sessionStorage.getItem('langues')});
     }
 
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  getLocales(){
+  getlangues(){
     
-    this.myApi.getData('locales', this.state ).then( (result) => {
+    this.myApi.getData('langues', this.state ).then( (result) => {
+      console.log(result);
     let responseJson = result;
     if(responseJson.data){
-      sessionStorage.setItem('locales', responseJson.data);
-      this.setState({locales: responseJson.data});
-      this.setState({localeId: this.state.locales[0].id });
+      sessionStorage.setItem('langues', responseJson.data);
+      this.setState({langues: responseJson.data});
+      this.setState({langueId: this.state.langues[0].id });
     }
     });
   }
 
   componentDidMount() {
-    if(!this.state.locales.length)
-      this.getLocales();
+    if(!this.state.langues.length)
+      this.getlangues();
   }
 
 
@@ -63,7 +64,7 @@ class FormTraduction extends Component {
     let data = {
       tag: this.state.tag,
       value: this.state.value,
-      localeId: this.state.localeId
+      langueId: this.state.langueId
     }
     
     this.myApi.postData("traduction/create",data).then( (result) => {
@@ -100,10 +101,10 @@ class FormTraduction extends Component {
 <div class="table-responsive">
   <form onSubmit={this.handleSubmit}>
     
-    <select name="localeId" value={this.state.localeId} onChange={this.onChange}>
-    {this.state.locales.map( 
-      locale=>
-      <option value={locale.id}>{locale.name}
+    <select name="langueId" value={this.state.langueId} onChange={this.onChange}>
+    {this.state.langues.map( 
+      langue=>
+      <option value={langue.id}>{langue.name}
       </option>
     )}
     </select>

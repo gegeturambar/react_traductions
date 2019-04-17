@@ -34,12 +34,12 @@ class Traductions extends Component {
   getData(){
     var offset = this.numberByPage * this.page;
     this.myApi.getData('traductions', this.state, this.numberByPage , offset ).then( (result) => {
-    let responseJson = result;
-    if(responseJson.data){
-      sessionStorage.setItem('traductionsData', responseJson.data);
-      this.setState({traductions: responseJson.data});
-      console.log(responseJson.data);
-    }
+      let responseJson = result;
+      if(responseJson.data){
+        sessionStorage.setItem('traductionsData', responseJson.data);
+        this.setState({traductions: responseJson.data});
+        console.log(responseJson.data);
+      }
     });
   }
 
@@ -63,13 +63,30 @@ class Traductions extends Component {
     }
 
     var config = {
-        headers: headers
-      };
-      console.log(config);
-
+      headers: headers
+    };
+    console.log(config);
+    let id = parseInt((e.target.name.split("_"))[1]);
+    let data = {
+      id: id,
+      value: e.target.value
+    }
+    this.myApi.deleteData("traduction",data).then( (result) => {
+      if(result.data){
+        let trad = this.state.traductions;
+        trad.forEach(function(value,idx,theArray){
+          if(value.id == result.data.id){
+            trad[idx].value = result.data.value;
+          }
+        });
+        this.setState({traductions: trad});
+      }
+    })
+      /*
       Axios.delete('http://traductions.com/api/traduction/delete/2958',config).then( (result) => {
         console.log(result);
       });
+      */
 }
 
   onChangeTraduction(e){

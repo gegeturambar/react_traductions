@@ -7,7 +7,7 @@ import Axios from "axios";
     //let baseUrl = 'http://localhost/PHP-Slim-Restful/api/';
     // baseUrl = 'https://www.msh-services.com/wsmsh-traduction/api/';
     //baseUrl = 'http://traductions.com/api/traductions';
-    baseUrl = 'http://traductions.com/api/';
+    baseUrl = 'https://traductions.local.s2h.corp/api/';
 
     putData (type, userData) {
         let id = userData.id;
@@ -45,10 +45,28 @@ import Axios from "axios";
         return this.apiCall(url,'POST',JSON.stringify(userData));
     }
 
+    deleteData (type, userData) {
+        let url = this.baseUrl+type;
+        
+        let headers = {};
+        if(sessionStorage.getItem('X-AUTH-TOKEN')){
+            headers['X-AUTH-TOKEN'] = sessionStorage.getItem('X-AUTH-TOKEN');
+        }
+
+        var config = {
+            headers: headers
+          };
+        return Axios.delete(url,userData,config);
+
+
+        return this.apiCall(url,'POST',JSON.stringify(userData));
+    }
+
     
     getData(type, userData,limit = 0,offset = 0 ) {
 
         let url = this.baseUrl+type;
+        console.log(url);
         if(limit){
             url += "/"+limit;
             url += offset ? "/"+offset : "";

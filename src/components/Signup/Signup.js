@@ -15,9 +15,6 @@ class Signup extends Component {
     this.state={
       email: '',
       password: '',
-      username: '',
-      firstname: '',
-      lastname: '',
       redirectToRefferer: false
     };
     this.signup = this.signup.bind(this);
@@ -55,11 +52,7 @@ class Signup extends Component {
  <input type="text" name="email" placeholder="Email" onChange={this.onChange} />
  <label>Password</label>
  <input type="password" name="password" placeholder="Password" onChange={this.onChange} />
- <label>Firstname</label>
- <input type="text" name="firstname" placeholder="Firstname" onChange={this.onChange} />
- <label>Lastname</label>
- <input type="text" name="lastname" placeholder="Lastname" onChange={this.onChange} />
-
+ 
  <input type="submit" className="button success" value="Registration" onClick={this.signup} />
  <a href="/login">Login</a>
  </div>

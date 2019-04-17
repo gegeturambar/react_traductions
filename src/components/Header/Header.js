@@ -11,6 +11,7 @@ class Header extends Component {
     this.state={
         authenticated: (Boolean)(sessionStorage.getItem('X-AUTH-TOKEN'))
     };
+    console.log(sessionStorage.getItem('X-AUTH-TOKEN'));
   }
 
   logout() {
